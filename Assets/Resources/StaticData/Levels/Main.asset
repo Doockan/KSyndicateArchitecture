@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973c2b5034ce43169e5105c4d6e75017, type: 3}
+  m_Name: Main
+  m_EditorClassIdentifier: 
+  LevelKey: Main
+  EnemySpawners:
+  - Id: Main_5434979a-5dd7-4da8-90d6-afb700f530bf
+    MonsterTypeID: 0
+    Position: {x: 1.9289539, y: 0, z: -38.75974}
+  - Id: Main_9b35cd77-7e7a-4535-b445-e503e6fb0390
+    MonsterTypeID: 10
+    Position: {x: 9.178954, y: 0, z: -38.70974}
+  - Id: Main_c7526ce2-8912-4a71-9f64-07d7975ffef3
+    MonsterTypeID: 0
+    Position: {x: -5.581046, y: 0, z: -34.879738}
+  - Id: Main_080b839f-a5c6-4860-9985-c04a3139d26d
+    MonsterTypeID: 10
+    Position: {x: 5.768954, y: 0, z: -37.79974}
+  - Id: Main_dc539c0f-6ebd-40ed-9b57-e686f3631e35
+    MonsterTypeID: 0
+    Position: {x: -2.0210462, y: 0, z: -32.019737}
+  - Id: Main_dc539c0f-6ebd-40ed-9b57-e686f3631e35
+    MonsterTypeID: 0
+    Position: {x: 9.648954, y: 0, z: -31.109737}
+  - Id: Main_21189eb2-ba83-4e21-b5ad-18dd91346f94
+    MonsterTypeID: 10
+    Position: {x: -2.2610462, y: 0, z: -39.55974}
+  - Id: Main_3bd18555-3176-4d71-ad2a-81878fdef25a
+    MonsterTypeID: 0
+    Position: {x: 16.428955, y: 0, z: -29.22974}
+  - Id: Main_e018b4cb-3f85-443e-adf0-c5445dea1a11
+    MonsterTypeID: 0
+    Position: {x: 5.1789536, y: 0, z: -33.109737}
+  - Id: Main_6c85369f-6cbd-4d38-8bfa-155aca3d3345
+    MonsterTypeID: 0
+    Position: {x: 2.0289538, y: 0, z: -28.659737}
+  InitialHeroPosition: {x: 0, y: 0.5, z: -47.63033}
