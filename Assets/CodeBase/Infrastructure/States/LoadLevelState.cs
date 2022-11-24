@@ -1,4 +1,5 @@
-﻿using CodeBase.CameraLogic;
+﻿using System.Threading.Tasks;
+using CodeBase.CameraLogic;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
@@ -41,33 +42,35 @@ namespace CodeBase.Infrastructure.States
     {
       _curtain.Show();
       _gameFactory.Cleanup();
+      _gameFactory.WarmUp();
       _sceneLoader.Load(sceneName, OnLoaded);
+      
     }
 
     public void Exit() =>
       _curtain.Hide();
 
-    private void OnLoaded()
+    private async void OnLoaded()
     {
-      InitUIRoot();
-      InitGameWorld();
+      await InitUIRoot();
+      await InitGameWorld();
       InformProgressReaders();
 
       _stateMachine.Enter<GameLoopState>();
     }
 
-    private void InitUIRoot() =>
-      _uiFactory.CreateUIRoot();
+    private async Task InitUIRoot() =>
+      await _uiFactory.CreateUIRoot();
 
-    private void InitGameWorld()
+    private async Task InitGameWorld()
     {
       var levelData = LevelStaticData();
 
-      InitSpawners(levelData);
+      await InitSpawners(levelData);
 
-      var hero = InitHero(levelData);
+      var hero = await  InitHero(levelData);
 
-      InitHud(hero);
+      await InitHud(hero);
       CameraFollow(hero);
     }
 
@@ -77,18 +80,20 @@ namespace CodeBase.Infrastructure.States
         progressReader.LoadProgress(_progressService.Progress);
     }
 
-    private void InitSpawners(LevelStaticData levelData)
+    private async Task InitSpawners(LevelStaticData levelData)
     {
       foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
-        _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
+        await _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
     }
 
-    private GameObject InitHero(LevelStaticData levelData) =>
-      _gameFactory.CreateHero(levelData.InitialHeroPosition);
-
-    private void InitHud(GameObject hero)
+    private async Task<GameObject> InitHero(LevelStaticData levelData)
     {
-      GameObject hud = _gameFactory.CreateHud();
+      return await _gameFactory.CreateHero(levelData.InitialHeroPosition);
+    }
+
+    private async Task InitHud(GameObject hero)
+    {
+      GameObject hud = await _gameFactory.CreateHud();
 
       hud.GetComponentInChildren<ActorUI>()
         .Construct(hero.GetComponent<HeroHealth>());

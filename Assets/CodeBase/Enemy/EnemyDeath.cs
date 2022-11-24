@@ -13,7 +13,7 @@ namespace CodeBase.Enemy
 
     public GameObject DeathFx;
 
-    public event Action Happened;
+    public event Action Died;
 
     private void Start() => 
       Health.HealthChanged += HealthChanged;
@@ -35,7 +35,7 @@ namespace CodeBase.Enemy
       SpawnDeathFx();
       StartCoroutine(DestroyTimer());
       
-      Happened?.Invoke();
+      Died?.Invoke();
     }
 
     private void SpawnDeathFx() => 
