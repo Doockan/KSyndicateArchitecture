@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services.Asd;
+using CodeBase.Infrastructure.Services.IAP;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Services.StaticData;
 using CodeBase.StaticData.Windows;
@@ -17,22 +18,25 @@ namespace CodeBase.UI.Services.Factory
     private readonly IStaticDataService _staticDataService;
     private readonly IPersistentProgressService _progressService;
     private readonly IAdsService _adsService;
+    private readonly IIAPService _iapService;
 
     private Transform _uiRoot;
 
-    public UIFactory(IAssets assets, IStaticDataService staticDataService, IPersistentProgressService progressService, IAdsService adsService)
+    public UIFactory(IAssets assets, IStaticDataService staticDataService, IPersistentProgressService progressService,
+      IAdsService adsService, IIAPService iapService)
     {
       _assets = assets;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _adsService = adsService;
+      _iapService = iapService;
     }
 
     public void CreateShop()
     {
       WindowConfig config = _staticDataService.ForWindow(WindowId.Shop);
       ShopWindow window = Object.Instantiate(config.Prefab, _uiRoot) as ShopWindow ;
-      window.Construct(_adsService, _progressService);
+      window.Construct(_adsService, _progressService, _iapService, _assets);
     }
 
     public async Task CreateUIRoot()

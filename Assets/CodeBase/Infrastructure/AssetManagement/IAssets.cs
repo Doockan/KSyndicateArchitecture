@@ -9,6 +9,7 @@ namespace CodeBase.Infrastructure.AssetManagement
   {
     Task<GameObject> Instantiate(string path);
     Task<GameObject> Instantiate(string path, Vector3 at);
+    Task<GameObject> Instantiate(string address, Transform under);
     Task<T> Load<T>(AssetReference assetReference) where T : class;
     Task<T> Load<T>(string address) where T : class;
     void Cleanup();

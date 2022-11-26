@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.Asd;
+using CodeBase.Infrastructure.Services.IAP;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Services.Input;
@@ -44,13 +45,15 @@ namespace CodeBase.Infrastructure.States
       _services.RegisterSingle<IInputService>(InputService());
       _services.RegisterSingle<IRandomService>(new RandomService());
       _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
+
+      RegisterIAPService(new IAPProvider(), _services.Single<IPersistentProgressService>());
       
       _services.RegisterSingle<IUIFactory>(new UIFactory(
         _services.Single<IAssets>(),
         _services.Single<IStaticDataService>(),
         _services.Single<IPersistentProgressService>(), 
-        _services.Single<IAdsService>()
-        ));
+        _services.Single<IAdsService>(), 
+        _services.Single<IIAPService>()));
       
       _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
 
@@ -68,18 +71,25 @@ namespace CodeBase.Infrastructure.States
 
     private void RegisterAssetProvider()
     {
-      var assetProvider = new AssetProvider();
+      AssetProvider assetProvider = new AssetProvider();
       assetProvider.Initialize();
       _services.RegisterSingle<IAssets>(assetProvider);
     }
 
     private void RegisterAdsService()
     {
-      var adsService = new AdsService();
+      AdsService adsService = new AdsService();
       adsService.Initialize();
       _services.RegisterSingle<IAdsService>(adsService);
     }
-
+    
+    private void RegisterIAPService(IAPProvider iapProvider, IPersistentProgressService progressService)
+    {
+      IAPService iapService = new IAPService(iapProvider, progressService);
+      iapService.Initialize();
+      _services.RegisterSingle<IIAPService>(iapService);
+    }
+    
     public void Exit()
     {
     }
